@@ -41,6 +41,9 @@
             }
         }
     };
+    global.define.isDefined = function(moduleId) {
+        return typeof cache[moduleId] !== 'undefined';
+    };
     global.define.amd = {};
     
     global.require = function(dependencies, callback) {
