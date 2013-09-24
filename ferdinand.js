@@ -32,7 +32,7 @@
         if (typeof moduleId === 'string') {
             if (typeof factory === 'function') {
                 if (typeof cache[moduleId] !== 'undefined') {
-                    if (console && console.warn) console.warn('Duplicate module definition \'' + moduleId + '\'');
+                    if (global.console && global.console.warn) global.console.warn('Duplicate module definition \'' + moduleId + '\'');
                 }
                 cache[moduleId] = factory;
                 cache[moduleId].__dependencies = dependencies;
