@@ -19,6 +19,7 @@
 (function(global) {
     "use strict";
     var cache = {};
+    var requireQueue = [];
     
     function resolve(moduleId) {
         var factory = cache[moduleId];
@@ -26,6 +27,16 @@
 
         factory.__memoized = factory.__memoized || factory.apply(this, factory.__dependencies.map(resolve));
         return factory.__memoized;
+    }
+    
+    function drainRequireQueue() {
+        var delayedRequire, queue = requireQueue;
+        requireQueue = [];
+            
+        while (queue.length > 0) {
+            delayedRequire = queue.shift();
+            global.require(delayedRequire.dependencies, delayedRequire.callback);
+        }
     }
     
     global.define = function(moduleId, dependencies, factory) {
@@ -37,6 +48,8 @@
                 }
                 cache[moduleId] = factory;
                 cache[moduleId].__dependencies = dependencies;
+                
+                drainRequireQueue();
             } else {
                 throw new Error('Missing module factory for module \'' + moduleId + '\'');
             }
@@ -48,6 +61,13 @@
     global.define.amd = {};
     
     global.require = function(dependencies, callback) {
-        callback.apply(this, dependencies.map(resolve));
+        var resolvedDependencies;
+        try {
+            resolvedDependencies = dependencies.map(resolve);
+        } catch(e) {
+            requireQueue.push({dependencies:dependencies, callback:callback});
+            return;
+        }
+        callback.apply(this, resolvedDependencies);
     };
 })(window);
