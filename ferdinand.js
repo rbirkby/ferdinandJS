@@ -33,6 +33,7 @@
             if (typeof factory === 'function') {
                 if (typeof cache[moduleId] !== 'undefined') {
                     if (global.console && global.console.warn) global.console.warn('Duplicate module definition \'' + moduleId + '\'');
+                    delete cache[moduleId].__memoized;
                 }
                 cache[moduleId] = factory;
                 cache[moduleId].__dependencies = dependencies;
