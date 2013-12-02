@@ -1,5 +1,5 @@
 /**
- * FerdinandJS - AMD-lite JavaScript module resolver
+ * FerdinandJS - v0.3 - AMD-lite JavaScript module resolver
  *
  * Supports a subset of AMD with the following restrictions:
  *   Static dependencies only, no module loading
@@ -57,6 +57,10 @@
     };
     global.define.isDefined = function(moduleId) {
         return typeof cache[moduleId] !== 'undefined';
+    };
+    global.define.unusedModules = function() {
+        return Object.keys(cache)
+                     .filter(function(moduleId) {return typeof cache[moduleId].__memoized === 'undefined';});
     };
     global.define.amd = {};
     
