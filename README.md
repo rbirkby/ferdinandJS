@@ -69,11 +69,14 @@ require(['HelloWorldModule'], function(HelloWorldModule) {
 Debugging
 ---------
 
-FerdinandJS provides 2 mechanisms for discovering failed dependencies:
+FerdinandJS provides 3 mechanisms for discovering failed dependencies:
 
  * unusedModules
  * printUnresolvedDependencies
+ * isDefined
 
+### unusedModules
+ 
 Given the following code:
 ```JavaScript
 define('module1', ['module2'], function() {});
@@ -86,13 +89,19 @@ require(['module5'], function () {});
 ```
 then calling
     define.unusedModules()
-will produce:
+will return:
 ```JavaScript
 ["module1", "module2", "module3", "module5", "module6"]
 ```
 because module4 and module7 are not defined.
 
+### printUnresolvedDependencies
+
 It is much more interesting to know which dependencies have been required, but have been unable to be resolved. To find these dependencies, calling
     define.printUnresolvedDependencies()
 will produce:
 ![Image](docs/printUnresolvedDependencies.png?raw=true)
+
+### isDefined
+
+Calling define.isDefined('module4') returns true, whereas define.isDefined('module7') returns false.
