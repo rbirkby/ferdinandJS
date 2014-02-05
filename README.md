@@ -105,4 +105,4 @@ It is much more interesting to know which dependencies have been required, but h
 
 ### isDefined
 
-To know whether a module ID has been declared, you can ask FerdinandJS with `define.isDefined('module4')`. For the example above, this returns true, whereas `define.isDefined('module7')` returns false.
+To know whether a module ID has been declared, you can ask FerdinandJS with `define.isDefined('module3')`. For the example above, this returns true, whereas `define.isDefined('module7')` returns false.
