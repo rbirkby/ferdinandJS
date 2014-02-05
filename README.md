@@ -35,7 +35,7 @@ define('HelloWorldModule', [], function() {
     console.log('Hello World');
   };
   
-  return HelloWorldModule()
+  return HelloWorldModule;
 });
 
 require(['HelloWorldModule'], function(HelloWorldModule) {
