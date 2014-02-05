@@ -56,7 +56,7 @@ define('HelloWorldModule', ['LocalizationModule'], function(localizationModule) 
     console.log(localizationModule.HelloWorld);
   };
   
-  return HelloWorldModule()
+  return HelloWorldModule;
 });
 
 require(['HelloWorldModule'], function(HelloWorldModule) {
