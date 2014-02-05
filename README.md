@@ -71,9 +71,9 @@ Debugging
 
 FerdinandJS provides 3 mechanisms for discovering failed dependencies:
 
- * unusedModules
- * printUnresolvedDependencies
- * isDefined
+ * [unusedModules](#unusedModules)
+ * [printUnresolvedDependencies](#printUnresolvedDependencies)
+ * [isDefined](#isDefined)
 
 ### unusedModules
  
@@ -87,9 +87,7 @@ define('module6', ['module7'], function() {});
 require(['module1'], function () {});
 require(['module5'], function () {});
 ```
-then calling
-    define.unusedModules()
-will return:
+then calling `define.unusedModules()` will return:
 ```JavaScript
 ["module1", "module2", "module3", "module5", "module6"]
 ```
@@ -97,11 +95,10 @@ because module4 and module7 are not defined.
 
 ### printUnresolvedDependencies
 
-It is much more interesting to know which dependencies have been required, but have been unable to be resolved. To find these dependencies, calling
-    define.printUnresolvedDependencies()
-will produce:
+It is much more interesting to know which dependencies have been required, but have been unable to be resolved. To find these dependencies, calling `define.printUnresolvedDependencies()` will produce:
+
 ![Image](docs/printUnresolvedDependencies.png?raw=true)
 
 ### isDefined
 
-Calling define.isDefined('module4') returns true, whereas define.isDefined('module7') returns false.
+To know whether a module ID has been declared, you can ask FerdinandJS with `define.isDefined('module4')`. For the example above, this returns true, whereas `define.isDefined('module7')` returns false.
