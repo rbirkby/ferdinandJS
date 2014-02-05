@@ -85,7 +85,7 @@
         requireQueue.forEach(function(delayedRequire) {
             delayedRequire.dependencies.forEach(function(moduleId) {
                 dependencies[moduleId] = {};
-            })
+            });
         });
 
         Object.keys(dependencies).forEach(function(moduleId) {
