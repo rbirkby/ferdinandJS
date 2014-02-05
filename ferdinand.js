@@ -1,5 +1,5 @@
 /**
- * FerdinandJS - v0.4 - AMD-lite JavaScript module resolver
+ * FerdinandJS - v0.4.1 - AMD-lite JavaScript module resolver
  *
  * Supports a subset of AMD with the following restrictions:
  *   Static dependencies only, no module loading
@@ -101,7 +101,7 @@
     function printResolutionChain(chain) {
         if (chain.length > 1) {
             console.group('%c' + chain[0], 'color:red');
-            printResolutionChain(chain.slice(1))
+            printResolutionChain(chain.slice(1));
             console.groupEnd();
         } else {
             console.log('%c' + chain[0] + '%c remains unresolved', 'color:red', 'color:inherit');
