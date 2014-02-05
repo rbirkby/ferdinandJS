@@ -68,7 +68,7 @@ require(['HelloWorldModule'], function(HelloWorldModule) {
 Download
 --------
 
-[Latest Release](../../raw/latest/ferdinand.js)
+[Latest release](https://github.com/rbirkby/ferdinandJS/raw/master/ferdinand.js)
 
 Debugging
 ---------
