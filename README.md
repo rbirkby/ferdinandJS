@@ -65,6 +65,10 @@ require(['HelloWorldModule'], function(HelloWorldModule) {
 });
 ```
 
+Download
+--------
+
+[Latest Release](../../raw/latest/ferdinand.js)
 
 Debugging
 ---------
