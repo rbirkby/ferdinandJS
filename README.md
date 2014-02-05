@@ -71,9 +71,9 @@ Debugging
 
 FerdinandJS provides 3 mechanisms for discovering failed dependencies:
 
- * [unusedModules](#unusedModules)
- * [printUnresolvedDependencies](#printUnresolvedDependencies)
- * [isDefined](#isDefined)
+ * [unusedModules](#unusedmodules)
+ * [printUnresolvedDependencies](#printunresolveddependencies)
+ * [isDefined](#isdefined)
 
 ### unusedModules
  
