@@ -1,5 +1,6 @@
 /**
- * FerdinandJS - v0.4.1 - AMD-lite JavaScript module resolver
+ * FerdinandJS - v0.4.2 - AMD-lite JavaScript module resolver
+ * https://github.com/rbirkby/ferdinandJS
  *
  * Supports a subset of AMD with the following restrictions:
  *   Static dependencies only, no module loading
@@ -72,6 +73,10 @@
                 throw new Error('Missing module factory for module \'' + moduleId + '\'');
             }
         }
+    };
+    global.define.clear = function() {
+        cache = {};
+        requireQueue = [];
     };
     global.define.isDefined = function(moduleId) {
         return typeof cache[moduleId] !== 'undefined';
