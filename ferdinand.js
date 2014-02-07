@@ -1,5 +1,5 @@
 /**
- * FerdinandJS - v0.4.2 - AMD-lite JavaScript module resolver
+ * FerdinandJS - v0.4.3 - AMD-lite JavaScript module resolver
  * https://github.com/rbirkby/ferdinandJS
  *
  * Supports a subset of AMD with the following restrictions:
@@ -16,8 +16,8 @@
  * 		http://www.opensource.org/licenses/mit-license.php
  *
  * @license MIT License (c) copyright 2013-2014 R Birkby 
- */ 
-(function(global) {
+ */
+(function (global) {
     "use strict";
     var cache = {};
     var requireQueue = [];
@@ -30,14 +30,14 @@
 
     ResolutionError.prototype = new Error();
     ResolutionError.prototype.constructor = ResolutionError;
-    
+
     function resolve(moduleId) {
         var factory = cache[moduleId];
         if (typeof factory === 'undefined') throw new ResolutionError(moduleId);
 
         try {
             factory.__memoized = factory.__memoized || factory.apply(this, factory.__dependencies.map(resolve));
-        } catch(e) {
+        } catch (e) {
             if (e instanceof ResolutionError) {
                 e.resolutionChain.push(moduleId);
             }
@@ -47,18 +47,18 @@
 
         return factory.__memoized;
     }
-    
+
     function drainRequireQueue() {
         var delayedRequire, queue = requireQueue;
         requireQueue = [];
-            
+
         while (queue.length > 0) {
             delayedRequire = queue.shift();
             global.require(delayedRequire.dependencies, delayedRequire.callback);
         }
     }
-    
-    global.define = function(moduleId, dependencies, factory) {
+
+    global.define = function (moduleId, dependencies, factory) {
         if (typeof moduleId === 'string') {
             if (typeof factory === 'function') {
                 if (typeof cache[moduleId] !== 'undefined') {
@@ -67,41 +67,48 @@
                 }
                 cache[moduleId] = factory;
                 cache[moduleId].__dependencies = dependencies;
-                
+
                 drainRequireQueue();
             } else {
                 throw new Error('Missing module factory for module \'' + moduleId + '\'');
             }
         }
     };
-    global.define.clear = function() {
+    global.define.clear = function () {
         cache = {};
         requireQueue = [];
     };
-    global.define.isDefined = function(moduleId) {
+    global.define.isDefined = function (moduleId) {
         return typeof cache[moduleId] !== 'undefined';
     };
-    global.define.unusedModules = function() {
+    global.define.unusedModules = function () {
         return Object.keys(cache)
-                     .filter(function(moduleId) {return typeof cache[moduleId].__memoized === 'undefined';});
+                     .filter(function (moduleId) { return typeof cache[moduleId].__memoized === 'undefined'; });
     };
-    global.define.printUnresolvedDependencies = function() {
+    global.define.unresolvedDependencies = function() {
+        var unresolvedResolutionChain = [];
+
         var dependencies = {};
-        requireQueue.forEach(function(delayedRequire) {
-            delayedRequire.dependencies.forEach(function(moduleId) {
+        requireQueue.forEach(function (delayedRequire) {
+            delayedRequire.dependencies.forEach(function (moduleId) {
                 dependencies[moduleId] = {};
             });
         });
 
-        Object.keys(dependencies).forEach(function(moduleId) {
+        Object.keys(dependencies).forEach(function (moduleId) {
             try {
                 resolve(moduleId);
-            } catch(e) {
+            } catch (e) {
                 if (e instanceof ResolutionError) {
-                    printResolutionChain(e.resolutionChain.reverse());
+                    unresolvedResolutionChain.push(e.resolutionChain.reverse());
                 }
             }
         });
+
+        return unresolvedResolutionChain;
+    };
+    global.define.printUnresolvedDependencies = function () {
+        global.define.unresolvedDependencies().forEach(printResolutionChain);
     };
     function printResolutionChain(chain) {
         if (chain.length > 1) {
@@ -114,13 +121,13 @@
     }
 
     global.define.amd = {};
-    
-    global.require = function(dependencies, callback) {
+
+    global.require = function (dependencies, callback) {
         var resolvedDependencies;
         try {
             resolvedDependencies = dependencies.map(resolve);
-        } catch(e) {
-            requireQueue.push({dependencies:dependencies, callback:callback});
+        } catch (e) {
+            requireQueue.push({ dependencies: dependencies, callback: callback });
             return;
         }
         callback.apply(this, resolvedDependencies);
