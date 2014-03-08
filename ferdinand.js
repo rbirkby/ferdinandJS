@@ -1,5 +1,5 @@
 /**
- * FerdinandJS - v0.4.3 - AMD-lite JavaScript module resolver
+ * FerdinandJS - v0.5 - AMD-lite JavaScript module resolver
  * https://github.com/rbirkby/ferdinandJS
  *
  * Supports a subset of AMD with the following restrictions:
