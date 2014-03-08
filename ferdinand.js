@@ -13,12 +13,13 @@
  *   ES5
  *
  * Licensed under the MIT License at:
- * 		http://www.opensource.org/licenses/mit-license.php
+ *     http://www.opensource.org/licenses/mit-license.php
  *
  * @license MIT License (c) copyright 2013-2014 R Birkby 
  */
 (function (global) {
     "use strict";
+
     var cache = {};
     var requireQueue = [];
 
@@ -32,6 +33,7 @@
     ResolutionError.prototype.constructor = ResolutionError;
 
     function resolve(moduleId) {
+        /*jshint validthis:true */
         var factory = cache[moduleId];
         if (typeof factory === 'undefined') throw new ResolutionError(moduleId);
 
@@ -132,4 +134,4 @@
         }
         callback.apply(this, resolvedDependencies);
     };
-})(window);
+})(this || (1, eval)('this'));
