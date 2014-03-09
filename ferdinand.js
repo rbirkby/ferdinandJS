@@ -1,5 +1,5 @@
 /**
- * FerdinandJS - v0.5 - AMD-lite JavaScript module resolver
+ * FerdinandJS - v0.5.1 - AMD-lite JavaScript module resolver
  * https://github.com/rbirkby/ferdinandJS
  *
  * Supports a subset of AMD with the following restrictions:
@@ -64,7 +64,7 @@
         if (typeof moduleId === 'string') {
             if (typeof factory === 'function') {
                 if (typeof cache[moduleId] !== 'undefined') {
-                    if (global.console && global.console.warn) global.console.warn('Duplicate module definition \'' + moduleId + '\'');
+                    if (console && console.warn) console.warn('Duplicate module definition \'' + moduleId + '\'');
                     delete cache[moduleId].__memoized;
                 }
                 cache[moduleId] = factory;

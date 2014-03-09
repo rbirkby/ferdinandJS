@@ -1,9 +1,16 @@
 var assert = require("assert");
 var ferdinand = require("../ferdinand");
+var sinon = require("sinon");
 
 describe('ferdinand', function(){
-  beforeEach(function() {
+
+  afterEach(function() {
     ferdinand.define.clear();
+    console.warn.restore();
+  });
+
+  beforeEach(function() {
+    sinon.stub(console, "warn");
   });
 
   describe('define', function() {
@@ -19,6 +26,13 @@ describe('ferdinand', function(){
 
     it('should throw with missing dependencies', function(){
       assert.throws(function() {ferdinand.define('moduleId');});
+    });
+
+    it('should report duplicate module definitions', function(){
+      ferdinand.define('moduleId', [], function() {});
+      ferdinand.define('moduleId', [], function() {});
+
+      assert.ok(console.warn.calledOnce);
     });
 
     it('should define module with dependencies', function() {
@@ -40,7 +54,7 @@ describe('ferdinand', function(){
         assert.strictEqual(value, 42);
       });
     });
-    
+
     it('should lazily initialize the factory function', function() {
       var i = 42;
 
@@ -90,6 +104,16 @@ describe('ferdinand', function(){
 
       assert.ok(!required);
     });
+
+    it('should not cache factory function exceptions', function() {
+      ferdinand.define('moduleId', [], function() {
+        throw new Error('error in factory function');
+      })
+
+      ferdinand.require(['moduleId'], function() {});
+
+      assert.deepEqual(ferdinand.define.unusedModules(), ['moduleId']);
+    });
   });
 
   describe('unusedModules', function() {
@@ -108,7 +132,7 @@ describe('ferdinand', function(){
 
       ferdinand.require(['moduleId'], function() {});
 
-      assert.deepEqual(ferdinand.define.unresolvedDependencies(), [["moduleId","moduleId1","module2"]]);
+      assert.deepEqual(ferdinand.define.unresolvedDependencies(), [['moduleId','moduleId1','module2']]);
     });
   });
 });
