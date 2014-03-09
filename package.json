@@ -1,6 +1,6 @@
 {
   "name": "ferdinandJS",
-  "version": "0.4.3",
+  "version": "0.5.1",
   "description": "AMD-lite JavaScript module resolver",
   "main": "ferdinand.js",
   "directories": {
