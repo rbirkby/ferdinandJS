@@ -3,7 +3,8 @@ var ferdinand = require("../ferdinand");
 var sinon = require("sinon");
 
 describe('ferdinand', function(){
-
+  "use strict";
+  
   afterEach(function() {
     ferdinand.define.clear();
     console.warn.restore();
@@ -108,7 +109,7 @@ describe('ferdinand', function(){
     it('should surface factory function exceptions', function() {
       ferdinand.define('moduleId', [], function() {
         throw new Error('error in factory function');
-      })
+      });
 
       assert.throws(function() {ferdinand.require(['moduleId'], function() {}); });
     });
@@ -116,7 +117,7 @@ describe('ferdinand', function(){
     it('should throw factory function exceptions on each require', function() {
       ferdinand.define('moduleId', [], function() {
         throw new Error('error in factory function');
-      })
+      });
 
       try {
         ferdinand.require(['moduleId'], function() {});
