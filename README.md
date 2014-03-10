@@ -65,6 +65,26 @@ require(['HelloWorldModule'], function(HelloWorldModule) {
 });
 ```
 
+Module order is irrelevant. The require() call can come before define(), and defines can be in any order too.
+Only when all dependencies can be satisfied does the require callback get executed.
+```JavaScript
+require(['HelloWorldModule'], function(HelloWorldModule) {
+  var helloWorldModule = new HelloWorldModule();
+  helloWorldModule.printMessage();
+});
+
+define('HelloWorldModule', [], function() {
+  function HelloWorldModule() {}
+
+  HelloWorldModule.prototype.printMessage = function() {
+    console.log('Hello World');
+  };
+
+  return HelloWorldModule;
+});
+
+```
+
 Download
 --------
 
@@ -73,10 +93,11 @@ Download
 Debugging
 ---------
 
-FerdinandJS provides 3 mechanisms for discovering failed dependencies:
+FerdinandJS provides 4 mechanisms for discovering failed dependencies:
 
  * [unusedModules](#unusedmodules)
  * [printUnresolvedDependencies](#printunresolveddependencies)
+ * [unresolvedDependencies](#unresolveddependencies)
  * [isDefined](#isdefined)
 
 ### unusedModules
@@ -102,6 +123,10 @@ because module4 and module7 are not defined.
 It is much more interesting to know which dependencies have been required, but have been unable to be resolved. To find these dependencies, calling `define.printUnresolvedDependencies()` will produce:
 
 ![Image](docs/printUnresolvedDependencies.png?raw=true)
+
+### unresolvedDependencies
+
+Called internally by printUnresolvedDependencies, this function returns a list of all unresolved dependency chains for programmatic consumption.
 
 ### isDefined
 
