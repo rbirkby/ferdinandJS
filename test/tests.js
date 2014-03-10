@@ -105,14 +105,24 @@ describe('ferdinand', function(){
       assert.ok(!required);
     });
 
-    it('should not cache factory function exceptions', function() {
+    it('should surface factory function exceptions', function() {
       ferdinand.define('moduleId', [], function() {
         throw new Error('error in factory function');
       })
 
-      ferdinand.require(['moduleId'], function() {});
+      assert.throws(function() {ferdinand.require(['moduleId'], function() {}); });
+    });
 
-      assert.deepEqual(ferdinand.define.unusedModules(), ['moduleId']);
+    it('should throw factory function exceptions on each require', function() {
+      ferdinand.define('moduleId', [], function() {
+        throw new Error('error in factory function');
+      })
+
+      try {
+        ferdinand.require(['moduleId'], function() {});
+      } catch(e) {}
+
+      assert.throws(function() {ferdinand.require(['moduleId'], function() {}); }); 
     });
   });
 

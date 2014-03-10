@@ -1,5 +1,5 @@
 /**
- * FerdinandJS - v0.5.1 - AMD-lite JavaScript module resolver
+ * FerdinandJS - v0.5.2 - AMD-lite JavaScript module resolver
  * https://github.com/rbirkby/ferdinandJS
  *
  * Supports a subset of AMD with the following restrictions:
@@ -129,8 +129,12 @@
         try {
             resolvedDependencies = dependencies.map(resolve);
         } catch (e) {
-            requireQueue.push({ dependencies: dependencies, callback: callback });
-            return;
+            if (e instanceof ResolutionError) {
+                requireQueue.push({ dependencies: dependencies, callback: callback });
+                return;
+            }
+
+            throw e;
         }
         callback.apply(this, resolvedDependencies);
     };
