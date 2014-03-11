@@ -84,6 +84,13 @@ define('HelloWorldModule', [], function() {
 });
 
 ```
+This allows scripts to be loaded asynchronously using the HTML5 async attribute:
+```html
+<script src='helloworldmodule.js' async></script>
+<script src='localizationmodule.js' async></script>
+<script src='main.js' async></script>
+```
+
 
 Download
 --------
