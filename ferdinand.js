@@ -1,5 +1,5 @@
 /**
- * FerdinandJS - v0.5.2 - AMD-lite JavaScript module resolver
+ * FerdinandJS - v0.6.0 - AMD-lite JavaScript module resolver
  * https://github.com/rbirkby/ferdinandJS
  *
  * Supports a subset of AMD with the following restrictions:
@@ -15,7 +15,7 @@
  * Licensed under the MIT License at:
  *     http://www.opensource.org/licenses/mit-license.php
  *
- * @license MIT License (c) copyright 2013-2014 R Birkby 
+ * @license MIT License (c) copyright 2013-2014 R Birkby
  */
 (function (global) {
     "use strict";
@@ -76,18 +76,32 @@
             }
         }
     };
-    global.define.clear = function () {
+    global.require = function (dependencies, callback) {
+        var resolvedDependencies;
+        try {
+            resolvedDependencies = dependencies.map(resolve);
+        } catch (e) {
+            if (e instanceof ResolutionError) {
+                requireQueue.push({ dependencies: dependencies, callback: callback });
+                return;
+            }
+
+            throw e;
+        }
+        callback.apply(this, resolvedDependencies);
+    };
+    global.require.clear = function () {
         cache = {};
         requireQueue = [];
     };
-    global.define.isDefined = function (moduleId) {
+    global.require.isDefined = function (moduleId) {
         return typeof cache[moduleId] !== 'undefined';
     };
-    global.define.unusedModules = function () {
+    global.require.unusedModules = function () {
         return Object.keys(cache)
                      .filter(function (moduleId) { return typeof cache[moduleId].__memoized === 'undefined'; });
     };
-    global.define.unresolvedDependencies = function() {
+    global.require.unresolvedDependencies = function() {
         var unresolvedResolutionChain = [];
 
         var dependencies = {};
@@ -109,8 +123,8 @@
 
         return unresolvedResolutionChain;
     };
-    global.define.printUnresolvedDependencies = function () {
-        global.define.unresolvedDependencies().forEach(printResolutionChain);
+    global.require.printUnresolvedDependencies = function () {
+        global.require.unresolvedDependencies().forEach(printResolutionChain);
     };
     function printResolutionChain(chain) {
         if (chain.length > 1) {
@@ -123,19 +137,4 @@
     }
 
     global.define.amd = {};
-
-    global.require = function (dependencies, callback) {
-        var resolvedDependencies;
-        try {
-            resolvedDependencies = dependencies.map(resolve);
-        } catch (e) {
-            if (e instanceof ResolutionError) {
-                requireQueue.push({ dependencies: dependencies, callback: callback });
-                return;
-            }
-
-            throw e;
-        }
-        callback.apply(this, resolvedDependencies);
-    };
 })(this || (1, eval)('this'));

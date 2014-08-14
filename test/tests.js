@@ -4,9 +4,9 @@ var sinon = require("sinon");
 
 describe('ferdinand', function(){
   "use strict";
-  
+
   afterEach(function() {
-    ferdinand.define.clear();
+    ferdinand.require.clear();
     console.warn.restore();
   });
 
@@ -18,7 +18,7 @@ describe('ferdinand', function(){
     it('should define a module', function(){
       ferdinand.define('moduleId', [], function() {});
 
-      assert.ok(ferdinand.define.isDefined('moduleId'));
+      assert.ok(ferdinand.require.isDefined('moduleId'));
     });
 
     it('should throw with missing factory function', function(){
@@ -40,7 +40,7 @@ describe('ferdinand', function(){
       ferdinand.define('moduleId1', [], function() {});
       ferdinand.define('moduleId', ['moduleId1'], function() {});
 
-      assert.ok(ferdinand.define.isDefined('moduleId'));
+      assert.ok(ferdinand.require.isDefined('moduleId'));
     });
 
     it('should cache the factory function', function() {
@@ -123,7 +123,7 @@ describe('ferdinand', function(){
         ferdinand.require(['moduleId'], function() {});
       } catch(e) {}
 
-      assert.throws(function() {ferdinand.require(['moduleId'], function() {}); }); 
+      assert.throws(function() {ferdinand.require(['moduleId'], function() {}); });
     });
   });
 
@@ -132,7 +132,7 @@ describe('ferdinand', function(){
       ferdinand.define('moduleId1', [], function() {});
       ferdinand.define('moduleId', ['moduleId1'], function() {});
 
-      assert.deepEqual(ferdinand.define.unusedModules(), ['moduleId1', 'moduleId']);
+      assert.deepEqual(ferdinand.require.unusedModules(), ['moduleId1', 'moduleId']);
     });
   });
 
@@ -143,7 +143,7 @@ describe('ferdinand', function(){
 
       ferdinand.require(['moduleId'], function() {});
 
-      assert.deepEqual(ferdinand.define.unresolvedDependencies(), [['moduleId','moduleId1','module2']]);
+      assert.deepEqual(ferdinand.require.unresolvedDependencies(), [['moduleId','moduleId1','module2']]);
     });
   });
 });

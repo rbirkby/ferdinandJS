@@ -30,11 +30,11 @@ Suppose you like to structure your JavaScript with objects and constructor funct
 ```JavaScript
 define('HelloWorldModule', [], function() {
   function HelloWorldModule() {}
-  
+
   HelloWorldModule.prototype.printMessage = function() {
     console.log('Hello World');
   };
-  
+
   return HelloWorldModule;
 });
 
@@ -51,11 +51,11 @@ define('LocalizationModule', [], function() {
 });
 define('HelloWorldModule', ['LocalizationModule'], function(localizationModule) {
   function HelloWorldModule() {}
-  
+
   HelloWorldModule.prototype.printMessage = function() {
     console.log(localizationModule.HelloWorld);
   };
-  
+
   return HelloWorldModule;
 });
 
@@ -108,7 +108,7 @@ FerdinandJS provides 4 mechanisms for discovering failed dependencies:
  * [isDefined](#isdefined)
 
 ### unusedModules
- 
+
 Given the following code:
 ```JavaScript
 define('module1', ['module2'], function() {});
@@ -119,7 +119,7 @@ define('module6', ['module7'], function() {});
 require(['module1'], function () {});
 require(['module5'], function () {});
 ```
-then calling `define.unusedModules()` will return:
+then calling `require.unusedModules()` will return:
 ```JavaScript
 ["module1", "module2", "module3", "module5", "module6"]
 ```
@@ -127,7 +127,7 @@ because module4 and module7 are not defined.
 
 ### printUnresolvedDependencies
 
-It is much more interesting to know which dependencies have been required, but have been unable to be resolved. To find these dependencies, calling `define.printUnresolvedDependencies()` will produce:
+It is much more interesting to know which dependencies have been required, but have been unable to be resolved. To find these dependencies, calling `require.printUnresolvedDependencies()` will produce:
 
 ![Image](docs/printUnresolvedDependencies.png?raw=true)
 
@@ -137,4 +137,4 @@ Called internally by printUnresolvedDependencies, this function returns a list o
 
 ### isDefined
 
-To know whether a module ID has been declared, you can ask FerdinandJS with `define.isDefined('module3')`. For the example above, this returns true, whereas `define.isDefined('module7')` returns false.
+To know whether a module ID has been declared, you can ask FerdinandJS with `require.isDefined('module3')`. For the example above, this returns true, whereas `require.isDefined('module7')` returns false.
