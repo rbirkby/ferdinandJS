@@ -1,6 +1,8 @@
 FerdinandJS
 ===========
 
+[ ![Codeship Status for rbirkby/ferdinandJS](https://www.codeship.io/projects/c285bc60-3127-0132-49cb-7e57058c4501/status)](https://www.codeship.io/projects/40003)
+
 AMD-lite JavaScript module resolver
 
 Supports a subset of AMD with the following restrictions:
@@ -139,5 +141,3 @@ Called internally by printUnresolvedDependencies, this function returns a list o
 
 To know whether a module ID has been declared, you can ask FerdinandJS with `require.isDefined('module3')`. For the example above, this returns true, whereas `require.isDefined('module7')` returns false.
 
-
-[ ![Codeship Status for rbirkby/ferdinandJS](https://www.codeship.io/projects/c285bc60-3127-0132-49cb-7e57058c4501/status)](https://www.codeship.io/projects/40003)
