@@ -15,6 +15,13 @@ Supports a subset of AMD with the following restrictions:
  *  No CommonJS support
  *  ES5
 
+Installing
+----------
+
+```shell
+bower install ferdinandjs
+```
+
 Getting Started
 ---------------
 
