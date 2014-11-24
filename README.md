@@ -1,5 +1,6 @@
 FerdinandJS
 ===========
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/rbirkby/ferdinandJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [ ![Codeship Status for rbirkby/ferdinandJS](https://www.codeship.io/projects/c285bc60-3127-0132-49cb-7e57058c4501/status)](https://www.codeship.io/projects/40003)
 
